@@ -51,10 +51,9 @@ export const solve = (input) => {
       const direction = operation.charAt(0);
       const distance = Number(operation.slice(1));
 
-      const toBe = direction === 'L' ? 100 + pointer - distance : pointer + distance;
+      const toBe = direction === 'L' ? (Math.ceil(distance / 100) * 100) + pointer - distance : pointer + distance;
       const adjustPassword = toBe % 100 === 0 ? 1 : 0
       const nextPointer = Math.abs(toBe % 100);
-      console.log({operation, toBe, adjustPassword, nextPointer});
 
       return { pointer: nextPointer, password: password + adjustPassword };
     },
