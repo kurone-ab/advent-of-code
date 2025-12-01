@@ -1,0 +1,14 @@
+{
+  "name": "advent-of-code",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com//kurone-ab/advent-of-code.git"
+  },
+  "private": false,
+  "devDependencies": {
+    "vitest": "^4.0.14"
+  }
+}
