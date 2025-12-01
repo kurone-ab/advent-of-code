@@ -12,11 +12,11 @@ function* extractMatchedGroup(string, regex) {
 }
 
 const numbers = ['zero', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine'];
-const parseNumber = value => {
+const parseNumber = (value) => {
   const indexOfValue = numbers.indexOf(value);
   if (indexOfValue > 0) return indexOfValue;
   return Number(value);
-}
+};
 
 const firstNumbers = [...extractMatchedGroup(testString, firstNumberPattern)].map(parseNumber);
 const lastNumbers = [...extractMatchedGroup(testString, lastNumberPattern)].map(parseNumber);
