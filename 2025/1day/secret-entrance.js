@@ -108,7 +108,6 @@ export const partTwo = (input) => {
         nextPointer = (pointer + distance) % 100;
         adjustPassword = Math.floor((pointer + distance) / 100);
       }
-      console.log(pointer, operation, nextPointer, adjustPassword);
 
       return { pointer: nextPointer, password: password + adjustPassword };
     },
