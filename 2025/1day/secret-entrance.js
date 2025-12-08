@@ -43,7 +43,7 @@ Because the dial points at 0 a total of three times during this process, the pas
 Analyze the rotations in your attached document. What's the actual password to open the door?
 */
 
-export const solve = (input) => {
+export const partOne = (input) => {
   if (!Array.isArray(input) || !input.every((line) => typeof line === 'string')) throw new Error('Invalid input');
 
   const result = input.reduce(
@@ -51,8 +51,8 @@ export const solve = (input) => {
       const direction = operation.charAt(0);
       const distance = Number(operation.slice(1));
 
-      const toBe = direction === 'L' ? (Math.ceil(distance / 100) * 100) + pointer - distance : pointer + distance;
-      const adjustPassword = toBe % 100 === 0 ? 1 : 0
+      const toBe = direction === 'L' ? Math.ceil(distance / 100) * 100 + pointer - distance : pointer + distance;
+      const adjustPassword = toBe % 100 === 0 ? 1 : 0;
       const nextPointer = Math.abs(toBe % 100);
 
       return { pointer: nextPointer, password: password + adjustPassword };
@@ -63,8 +63,62 @@ export const solve = (input) => {
   return result.password;
 };
 
-const input = `
-R27
+/*
+You remember from the training seminar that "method 0x434C49434B" means you're actually supposed to count the number of times any click causes the dial to point at 0, regardless of whether it happens during a rotation or at the end of one.
+
+Following the same rotations as in the above example, the dial points at zero a few extra times during its rotations:
+
+The dial starts by pointing at 50.
+The dial is rotated L68 to point at 82; during this rotation, it points at 0 once.
+The dial is rotated L30 to point at 52.
+The dial is rotated R48 to point at 0.
+The dial is rotated L5 to point at 95.
+The dial is rotated R60 to point at 55; during this rotation, it points at 0 once.
+The dial is rotated L55 to point at 0.
+The dial is rotated L1 to point at 99.
+The dial is rotated L99 to point at 0.
+The dial is rotated R14 to point at 14.
+The dial is rotated L82 to point at 32; during this rotation, it points at 0 once.
+In this example, the dial points at 0 three times at the end of a rotation, plus three more times during a rotation. So, in this example, the new password would be 6.
+
+Be careful: if the dial were pointing at 50, a single rotation like R1000 would cause the dial to point at 0 ten times before returning back to 50!
+
+Using password method 0x434C49434B, what is the password to open the door?
+*/
+export const partTwo = (input) => {
+  if (!Array.isArray(input) || !input.every((line) => typeof line === 'string')) throw new Error('Invalid input');
+
+  const result = input.reduce(
+    ({ pointer, password }, operation) => {
+      const direction = operation.charAt(0);
+      const distance = Number(operation.slice(1));
+
+      let nextPointer;
+      let adjustPassword;
+      if (direction === 'L') {
+        nextPointer = Math.abs((Math.ceil(distance / 100) * 100 + pointer - distance) % 100);
+        if (pointer === 0) {
+          adjustPassword = Math.floor(distance / 100);
+        } else if (distance >= pointer) {
+          adjustPassword = 1 + Math.floor((distance - pointer) / 100);
+        } else {
+          adjustPassword = 0;
+        }
+      } else {
+        nextPointer = (pointer + distance) % 100;
+        adjustPassword = Math.floor((pointer + distance) / 100);
+      }
+      console.log(pointer, operation, nextPointer, adjustPassword);
+
+      return { pointer: nextPointer, password: password + adjustPassword };
+    },
+    { pointer: 50, password: 0 },
+  );
+
+  return result.password;
+};
+
+const input = `R27
 R47
 R21
 L37
@@ -4396,6 +4450,7 @@ R35
 R6
 L49
 L41
-R43
-`.split('\n');
-console.log(solve(input));
+R43`.split('\n');
+
+console.log('part one', partOne(input));
+console.log('part two', partTwo(input));
