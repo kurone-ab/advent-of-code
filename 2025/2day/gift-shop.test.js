@@ -1,6 +1,6 @@
 import { findInvalidIds, partOne } from './gift-shop.js';
 
-describe('When solving year 2025 day 1', () => {
+describe('When solving year 2025 day 2', () => {
   it('주어진 범위에서 올바르지 않은 ID가 없을 경우, 빈 배열을 반환한다.', () => {
     const range = '1698522-1698528';
 
